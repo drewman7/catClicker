@@ -1,21 +1,99 @@
+// animal information
+var animals = {
+  "cats": [
+    {
+      "name": "Bob the Cat",
+      "counter": 0,
+      "description": "Standing in the middle of the floor.",
+      "image": "images/bob_cat.jpg"
+    },
+    {
+      "name": "Bashful the Cat",
+      "counter": 0,
+      "description": "Hiding behind the rungs.",
+      "image": "images/bashful_cat.jpg"
+    },
+    { 
+      "name": "Sleepy and Slumber",
+      "counter": 0,
+      "description": "Both taking a nap.",
+      "image": "images/sleepy_slumber_cat.png"
+    },
+    { 
+      "name": "Playful",
+      "counter": 0,
+      "description": "Let's play.",
+      "image": "images/playful_cat.jpg"
+    },
+    { 
+      "name": "Bright Eyes",
+      "counter": 0,
+      "description": "Deep look into the eyes.",
+      "image": "images/bright_eyes_cat.jpg"
+    }
+  ]
+};
 
-var counter = 0;
-var counter2 = 0;
+var headerText = "Select a Cat to from the List";
 
-$('#cat-header').text("Directions:  Click on Cat1!");
-$('#cat-header').append('<h3 id="cat-body"></h3>');
-$('#cat-body').append('<img id="cat-pic" src="images/cat.jpg" width="270">');
-$('#counter-number').text(counter);
+animals.display = function() {
+  //$('#cat-header').text("Select a Cat Name below:");
+  $('#cat-header').html('<h3 id="cat-header">Select a Cat Name below:</h3>');
+  $('#cat-header').append('<ul id="cat-body"></ul>');
+  $('#counter-header').remove();
+  $('#counter-number').remove();
+  //$('#cat-body').append('<img id="cat-pic" src="images/cat.jpg" width="270">');
+
+  $('<div id="catContainer2" class="cat-container"></div>').insertAfter('#catContainer');
+  $('#catContainer2').append('<h3 id="cat-box"></h3>');
+  $('#cat-box').html('<h3 id="cat-header2">' + headerText +'</h3>');
+  $('#cat-header2').append('<ul id="cat-body2"></ul>');
+  $('<p id="cat-pic2"></p>').insertAfter('#cat-header2');
+  $('<p id="counter-header2">(on the left)</p>').insertAfter('#cat-header2');
+  $('<p id="counter-number2"></p>').insertAfter('#counter-header2');
+};
+
+animals.display();
+
+// Let's loop over the numbers in our array
+for (var i = 0; i < animals.cats.length; i++) {
+// This is the number we're on...
+    var cat = animals.cats[i];
+// We're creating a DOM element for the number
+    var elem = document.createElement('p');
+    elem.textContent = cat.name;
+// ... and when we click, alert the value of `num`
+    elem.addEventListener('click', (function(catNum) {
+        return function() {
+            //alert(catNum);
+            showCat(catNum);
+        };
+    })(i));
+    
+    $('#cat-body').append(elem);
+};
+
+
 
 //$('#catContainer').append('<div id="catContainer2" class="cat-container"></div>');
-$('<div id="catContainer2" class="cat-container"></div>').insertAfter('#catContainer');
-$('#catContainer2').append('<h3 id="cat-header2">Directions:  Click on Cat2!</h3>');
-$('#cat-header2').append('<h3 id="cat-body2"></h3>');
-$('#cat-body2').append('<img id="cat-pic2" src="images/cat2.jpg" width="270">');
-$('<h3 id="counter-header2">Number of Clicks:</h3>').insertAfter('#cat-header2');
-$('<h3 id="counter-number2">0</h3>').insertAfter('#counter-header2');
-$('#counter-number2').text(counter2);
+function showCat (catNum) {
+  //$('#cat-header2').html('<h3 id="cat-header2">Now click on the Cat!</h3>');
+  
+  $('#cat-header2').text('Now click on ' + animals.cats[catNum].name + '!');
+  $('#cat-pic2').remove();
+  $('<img id="cat-pic2" src=' + animals.cats[catNum].image + ' width="270">').insertAfter('#cat-header2');
+  //$('#cat-body2').append('<img id="cat-pic2" src=' + animals.cats[4].image + ' width="270">');
+  $('#counter-header2').text('Number of Clicks:');
+  $('#counter-number2').text(animals.cats[catNum].counter);
+  //$('<h3 id="counter-header2">Number of Clicks:</h3>').insertAfter('#cat-header2');
+  //$('<h3 id="counter-number2">0</h3>').insertAfter('#counter-header2');
+  //$('#counter-number2').text(counter2);
+  $('#cat-pic2').click(function(e) {
+  animals.cats[catNum].counter = animals.cats[catNum].counter + 1;
+  $('#counter-number2').text(animals.cats[catNum].counter);
+});
 
+};
 
 $('#cat-pic').click(function(e) {
   counter = counter + 1;
